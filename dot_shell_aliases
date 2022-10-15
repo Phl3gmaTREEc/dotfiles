@@ -75,6 +75,14 @@ alias gpsh='git push'
 alias gpll='git pull'
 alias gcln='git clone'
 
+# chezmoi
+alias cfadd='chezmoi add'
+alias cfd='chezmoi diff'
+alias cfapp='chezmoi apply'
+alias cfga='chezmoi git add .'
+alias cfgc='chezmoi git commit'
+alias cfgs='chezmoi git status'
+
 ## GIT alias Config files
 #alias gcf='/usr/bin/git --git-dir=$HOME/git_repos/config_files/cfiles/ --work-tree=$HOME'
 #alias gcfa='gcf add'
