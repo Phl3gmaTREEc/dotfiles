@@ -1,0 +1,30 @@
+% tools, ventoy
+
+# Launch Ventoy WebGUI from ventoy folder
+sudo sh VentoyWeb.sh
+
+% tools, magick
+
+# Convert and lower quality (60) of image
+magick <source> -quality 60 <target>
+
+# Batch convert and quality of image (parameters = quality, path, format, ...; source = *.jpg)
+mogrify <parameters> <source>
+
+% tools, python, qtile
+
+# Basic python test for Qtile config
+python3 -m py_compile ~/.config/qtile/config.py
+
+# qtile command in terminal
+qtile cmd-obj -o cmd
+
+% tools, fd
+
+# find X and remove all file that contain X
+xargs rm <<< $(fd <target>)
+
+% tools, ffmpeg
+
+# convert AV file into other format (and adjust sound quality)
+ffmpeg -i <source> -aq 60 <target>

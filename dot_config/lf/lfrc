@@ -1,0 +1,4 @@
+# Basic config
+set icons true
+set ignorecase true
+set hidden true

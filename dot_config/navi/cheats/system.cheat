@@ -1,0 +1,23 @@
+% system, grub
+
+# Update list of GRUB entries ini the menu
+sudo grub-mkconfig -o /boot/grub/grub.cfg
+
+% system, bluetooth
+
+# Enable and start bluetooth daemon
+sudo systemctl enable --now bluetooth
+
+% system, clock, time, date
+
+# Manually synchronize clock with network
+sudo ntpd -qg
+
+# Write current software clock to hardware clock
+sudo hwclock --systohc
+
+# Show hardware clock
+sudo hwclock --show
+
+# Shos system clock
+timedatectl status
