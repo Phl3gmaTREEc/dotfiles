@@ -76,7 +76,9 @@ alias gpll='git pull'
 alias gcln='git clone'
 
 # chezmoi
+alias cf='chezmoi'
 alias cfadd='chezmoi add'
+alias cfreadd='chezmoi re-add'
 alias cfe='chezmoi edit -a'
 alias cfd='chezmoi diff'
 alias cfapp='chezmoi apply'

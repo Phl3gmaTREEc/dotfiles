@@ -2,8 +2,10 @@
 format = """
 [\uE0B6](fg:#bd93f9)\
 [\uF303](bg:#bd93f9 fg:bold #f8f8f2)\
-$username$hostname\
-[\uE0B0](bg:#6272a4 fg:#bd93f9)\
+$username\
+[\uE0B0](bg:#ffb86c fg:#bd93f9)\
+$hostname\
+[\uE0B0](bg:#6272a4 fg:#ffb86c)\
 $directory\
 [\uE0B0](fg:#6272a4)\
 $git_branch\
@@ -21,12 +23,12 @@ disabled = false
 style_user = "bg:#bd93f9 fg:bold #f8f8f2"
 style_root = "bg:#bd93f9 fg:bold #f8f8f2"
 show_always = true
-format = "[ $user]($style)"
+format = "[ $user ]($style)"
 
 [hostname]
-ssh_only = false
-style = "bg:#bd93f9 fg:bold #f8f8f2"
-format = "[@$hostname$ssh_symbol]($style)"
+ssh_only = true 
+style = "bg:#ffb86c fg:bold #f8f8f2"
+format = "[ $ssh_symbol $hostname ]($style)"
 
 [directory]
 truncation_symbol = "../"
