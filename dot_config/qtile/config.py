@@ -464,6 +464,7 @@ def get_widgets(primary=False, secondary=False):
         widget.KeyboardLayout(
             configured_keyboards=['cz','us'],
             foreground = YEL,
+            fmt='\uf80b {}',
             padding=5,
             ),
         widget.Sep(
@@ -554,6 +555,7 @@ def get_widgets(primary=False, secondary=False):
                 name="outwidget",
                 func=lambda :subprocess.check_output(
                     home + '/.local/share/scripts/volume/pamixer_out_widget.sh').decode().strip(),
+                fmt='墳 {}',
                 update_interval=60,
                 foreground = ORA,
                 ),
@@ -563,7 +565,8 @@ def get_widgets(primary=False, secondary=False):
               widget.Battery(
                   battery="/dev/hidraw7",
                   foreground=GRE,
-                  format="{char}{percent:2.0%}",
+                  format="{percent:2.0%}",
+                  fmt='\uf87c {}',
                   low_foreground=RED,
                   low_percentage=0.4,
                   mouse_callbacks = {
