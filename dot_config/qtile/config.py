@@ -562,20 +562,20 @@ def get_widgets(primary=False, secondary=False):
             )
         # Solaar
         widgets.insert(11,
-              widget.Battery(
-                  battery="/dev/hidraw7",
-                  foreground=GRE,
-                  format="{percent:2.0%}",
-                  fmt='\uf87c {}',
-                  low_foreground=RED,
-                  low_percentage=0.4,
-                  mouse_callbacks = {
-                      "Button1": lazy.spawn("solaar"),
-                      },
-                  notify_below=0.4,
-                  update_interval=120,
-                  ),
-              )
+            widget.Battery(
+                battery="/dev/hidraw7",
+                foreground=GRE,
+                format="{percent:2.0%}",
+                fmt='\uf87c {}',
+                low_foreground=RED,
+                low_percentage=0.4,
+                mouse_callbacks = {
+                    "Button1": lazy.spawn("solaar"),
+                    },
+                notify_below=0.4,
+                update_interval=120,
+                ),
+            )
         # Date
         widgets.insert(7,
             widget.Clock(
