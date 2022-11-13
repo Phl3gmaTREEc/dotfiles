@@ -45,7 +45,7 @@ from typing import List
 mod = "mod4"
 terminal = "kitty"
 browser = "firefox"
-guifile = "thunar"
+guifile = "pcmanfm-qt"
 
 home = os.path.expanduser('~')
 ### App definitions end }}}
@@ -369,9 +369,8 @@ layouts = [
     #layout.Bsp(**layout_theme),
     layout.Columns(name="C2", num_columns=2, **layout_theme),
     layout.Columns(name="C1", num_columns=1, **layout_theme),
-    layout.Columns(name="C3", num_columns=3, **layout_theme),
     #layout.Matrix(**layout_theme),
-    layout.Max(**layout_theme),
+    #layout.Max(**layout_theme),
     #layout.MonadTall(name="MT", **layout_theme),
     #layout.MonadThreeCol(name="M3", **layout_theme),
     #layout.MonadWide(name="MW", **layout_theme),
@@ -561,21 +560,21 @@ def get_widgets(primary=False, secondary=False):
                 ),
             )
         # Solaar
-        widgets.insert(11,
-            widget.Battery(
-                battery="/dev/hidraw7",
-                foreground=GRE,
-                format="{percent:2.0%}",
-                fmt='\uf87c {}',
-                low_foreground=RED,
-                low_percentage=0.4,
-                mouse_callbacks = {
-                    "Button1": lazy.spawn("solaar"),
-                    },
-                notify_below=0.4,
-                update_interval=120,
-                ),
-            )
+        #widgets.insert(11,
+        #    widget.Battery(
+        #        battery="/dev/hidraw7",
+        #        foreground=GRE,
+        #        format="{percent:2.0%}",
+        #        fmt='\uf87c {}',
+        #        low_foreground=RED,
+        #        low_percentage=0.4,
+        #        mouse_callbacks = {
+        #            "Button1": lazy.spawn("solaar"),
+        #            },
+        #        notify_below=0.4,
+        #        update_interval=120,
+        #        ),
+        #    )
         # Date
         widgets.insert(7,
             widget.Clock(

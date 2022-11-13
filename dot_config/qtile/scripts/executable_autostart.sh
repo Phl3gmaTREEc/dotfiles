@@ -14,6 +14,7 @@ steam -silent &
 flameshot &
 flatpak run org.ferdium.Ferdium &
 corectrl --minimize-systray &
+flatpak run com.logseq.Logseq &
 #discord --start-minimized &
 #pasystray &
 #/home/ptc/.local/share/applications/pCloud.AppImage &
