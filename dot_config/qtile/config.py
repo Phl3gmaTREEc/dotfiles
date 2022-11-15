@@ -54,50 +54,39 @@ home = os.path.expanduser('~')
 keys = [
     # Switch focus between windows
     Key([mod], "h",
-        lazy.layout.left(),
-        desc="Move focus to left"
+        lazy.layout.left()
         ),
     Key([mod], "j",
-        lazy.layout.down(),
-        desc="Move focus down"
+        lazy.layout.down()
         ),
     Key([mod], "k",
-        lazy.layout.up(),
-        desc="Move focus up"
+        lazy.layout.up()
         ),
     Key([mod], "l",
-        lazy.layout.right(),
-        desc="Move focus to right"
+        lazy.layout.right()
         ),
     Key([mod], "space",
-        lazy.layout.next(),
-        desc="Move window focus to other window"
+        lazy.layout.next()
         ),
     Key([mod], "n",                                                                                                     
-        lazy.next_screen(),                                                                                                   
-        desc='Move focus to next monitor'                                                                                     
+        lazy.next_screen()                                                                                                   
         ),                                                                                                                    
     Key([mod, "shift"], "n",                                                                                                      
-        lazy.prev_screen(),                                                                                                   
-        desc='Move focus to prev monitor'                                                                                     
+        lazy.prev_screen()                                                                                                   
         ),
 
     # Moving windows between left/right columns or move up/down in current stack.
     Key([mod, "shift"], "h",
-        lazy.layout.shuffle_left(),
-        desc="Move window left"
+        lazy.layout.shuffle_left()
         ),
     Key([mod, "shift"], "l",
-        lazy.layout.shuffle_right(),
-        desc="Move window right"
+        lazy.layout.shuffle_right()
         ),
     Key([mod, "shift"], "j",
-        lazy.layout.shuffle_down(),
-        desc="Move window down"
+        lazy.layout.shuffle_down()
         ),
     Key([mod, "shift"], "k",
-        lazy.layout.shuffle_up(),
-        desc="Move window up"
+        lazy.layout.shuffle_up()
         ),
     Key([mod, "shift", "control"], "h",
         lazy.layout.swap_column_left(),
@@ -107,27 +96,28 @@ keys = [
         lazy.layout.swap_column_right(),
         desc="Swap column right"
         ),
+    Key([mod, "shift"], "space",
+        lazy.layout.flip()
+        ),
 
     # Change window size
     Key([mod, "control"],
-        "h",lazy.layout.grow_left(),
-        desc="Grow window left"
+        "h",lazy.layout.grow_left()
         ),
     Key([mod, "control"], "l",
-        lazy.layout.grow_right(),
-        desc="Grow window right"
+        lazy.layout.grow_right()
         ),
     Key([mod, "control"], "j",
         lazy.layout.grow_down(),
-        desc="Grow window down"
+        lazy.layout.shrink()
         ),
     Key([mod, "control"], "k",
         lazy.layout.grow_up(),
-        desc="Grow window up"
+        lazy.layout.grow()
         ),
     Key([mod, "control"], "n",
         lazy.layout.normalize(),
-        desc="Reset window sizes"
+        lazy.layout.reset()
         ),
 
     # Toggle split/unsplit of stack for columms layout
@@ -241,13 +231,13 @@ keys = [
 # Groups {{{
 # Groups definition
 groups = [
-    Group(name="1", layout='C2'),
-    Group(name="2", layout='C2'),
-    Group(name="3", layout='C2'),
-    Group(name="4", layout='C2'),
-    Group(name="5", layout='C2'),
-    Group(name="6", layout='C2'),
-    Group(name="7", layout='C2'),
+    Group(name="1", layout='MT'),
+    Group(name="2", layout='MT'),
+    Group(name="3", layout='MT'),
+    Group(name="4", layout='MT'),
+    Group(name="5", layout='MT'),
+    Group(name="6", layout='MT'),
+    Group(name="7", layout='MT'),
     Group(name="8", layout='C1'),
     Group(name="9", layout='C1'),
     Group(name="0", layout='C1'),
@@ -367,12 +357,20 @@ layout_theme = {"border_width": 2,
 # Layouts definition
 layouts = [
     #layout.Bsp(**layout_theme),
-    layout.Columns(name="C2", num_columns=2, **layout_theme),
-    layout.Columns(name="C1", num_columns=1, **layout_theme),
+    #layout.Columns(name="C2", num_columns=2, **layout_theme),
+    layout.Columns(name="C1",
+                   num_columns=1,
+                   **layout_theme),
     #layout.Matrix(**layout_theme),
     #layout.Max(**layout_theme),
-    #layout.MonadTall(name="MT", **layout_theme),
-    #layout.MonadThreeCol(name="M3", **layout_theme),
+    layout.MonadTall(name="MT",
+                     new_client_position='bottom',
+                     ratio=0.7,
+                     **layout_theme),
+    layout.MonadThreeCol(name="M3",
+                         new_client_position='bottom',
+                         ratio=0.7,
+                         **layout_theme),
     #layout.MonadWide(name="MW", **layout_theme),
     #layout.RatioTile(**layout_theme),
     #layout.Slice(**layout_theme),
@@ -696,11 +694,16 @@ def layout_changed(layout, group):
         is_bar_hidden = False
 
 # Autostart
-@hook.subscribe.startup_once
-def autostart():
-    home = os.path.expanduser('~/.config/qtile/scripts/autostart.sh')
-    subprocess.call([home])
-
+if qtile.core.name == "x11":
+    @hook.subscribe.startup_once
+    def autostart():
+        home = os.path.expanduser('~/.config/qtile/scripts/autostart.sh')
+        subprocess.call([home])
+if qtile.core.name == "wayland":
+    @hook.subscribe.startup_once
+    def autostart():
+        home = os.path.expanduser('~/.config/qtile/scripts/autostart_wayland.sh')
+        subprocess.call([home])
 #@hook.subscribe.startup
 #def widget_update():
 #    lazy.widget["outwidget"].force_update()
