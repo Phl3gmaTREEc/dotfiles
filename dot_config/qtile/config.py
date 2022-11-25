@@ -577,7 +577,7 @@ def get_widgets(primary=False, secondary=False):
         widgets.insert(7,
             widget.Clock(
                 foreground = PUR,
-                format="%Y-%m-%d %A",
+                format="%Y-%m-%d %a",
                 ),
             )
         widgets.insert(7,
@@ -699,7 +699,7 @@ if qtile.core.name == "x11":
     def autostart():
         home = os.path.expanduser('~/.config/qtile/scripts/autostart.sh')
         subprocess.call([home])
-if qtile.core.name == "wayland":
+elif qtile.core.name == "wayland":
     @hook.subscribe.startup_once
     def autostart():
         home = os.path.expanduser('~/.config/qtile/scripts/autostart_wayland.sh')

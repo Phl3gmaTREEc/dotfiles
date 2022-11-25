@@ -40,7 +40,7 @@ alias fpun='flatpak uninstall'
 alias fpli='flatpak list'
 
 ## Apps
-alias sm='glances'
+alias sm='htop'
 alias v='nvim'
 alias e='lfcd'
 alias E='lf'
