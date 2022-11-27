@@ -5,15 +5,17 @@
 # logout="    Logout"
 shutdown="    Shutdown"
 reboot="    Reboot"
+logout="    Logout"
 # sleep="    Sleep"
 
 # Get answer from user via rofi
 selected_option=$(echo "$reboot
-$shutdown" | rofi -dmenu\
+$shutdown
+$logout" | rofi -dmenu\
                   -i\
                   -p "Power"\
                   -config "~/.config/rofi/smallmenu.rasi"\
-		  -l 2\ )
+		  -l 3\ )
 
 # Do something based on selected option
 # if [ "$selected_option" == "$lock" ]
@@ -28,10 +30,9 @@ then
 elif [ "$selected_option" == "$reboot" ]
 then
     systemctl reboot
-# elif [ "$selected_option" == "$sleep" ]
-# then
-#     amixer set Master mute
-#     systemctl suspend
+ elif [ "$selected_option" == "$logout" ]
+ then
+    qtile cmd-obj -o cmd -f shutdown
 else
     echo "No match"
 fi
