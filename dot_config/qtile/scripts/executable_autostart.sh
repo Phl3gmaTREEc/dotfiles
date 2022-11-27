@@ -8,12 +8,12 @@ dunst -conf "~/.config/dunst/dunstrc" &
 easyeffects --gapplication-service &
 solaar --window=hide &
 qpwgraph -m &
-nm-applet &
-#blueman-applet &
+#nm-applet &
+blueman-applet &
 steam -silent &
 flameshot &
-flatpak run org.ferdium.Ferdium &
 corectrl --minimize-systray &
+flatpak run org.ferdium.Ferdium &
 flatpak run com.logseq.Logseq &
 #discord --start-minimized &
 #pasystray &

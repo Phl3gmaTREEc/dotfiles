@@ -39,6 +39,10 @@ from libqtile.config import Click, Drag, Group, Key, KeyChord, Match, Screen, Sc
 from libqtile.lazy import lazy
 from libqtile.utils import guess_terminal
 from typing import List
+
+from qtile_extras import widget
+from qtile_extras.popup.toolkit import PopupRelativeLayout, PopupImage, PopupText, PopupWidget
+from qtile_extras.widget.decorations import BorderDecoration, PowerLineDecoration
 ### Imports end }}}
 
 # App definitions {{{
@@ -393,6 +397,14 @@ def longText(text):
             text = text
     return text
 
+decor = {
+    "decorations": [
+        PowerLineDecoration(
+            path='arrow_right'
+            )
+        ]
+}
+
 # Widgets defaults
 widget_defaults = dict(
     background=BG,
@@ -415,7 +427,7 @@ def get_widgets(primary=False, secondary=False):
                 'Button3': lazy.spawn("rofi -show run"),
             },
             padding=5,
-            text='\uF303 '
+            text='\uF303 ',
             ),
         widget.Sep(
             linewidth=2,
@@ -443,8 +455,10 @@ def get_widgets(primary=False, secondary=False):
             linewidth=2,
             ),
         ## Current Layout
-        widget.CurrentLayout(
+        widget.CurrentLayoutIcon(
             foreground = YEL,
+            scale=0.7,
+            use_mask=True
             ),
         widget.Sep(
             linewidth=2,
@@ -481,18 +495,18 @@ def get_widgets(primary=False, secondary=False):
                 fmt='\uf80b {}',
                 padding=5,
                 ),
-        #widget.Sep(
-        #    linewidth=2,
-        #    size_percent=75,
-        #    ),
-        #widget.Clock(
-        #    foreground = ORA,
-        #    format="%H:%M",
-        #    ),
         widget.Sep(
             linewidth=2,
             size_percent=75,
             ),
+        #widget.Clock(
+        #    foreground = ORA,
+        #    format="%H:%M",
+        #    ),
+        #widget.Sep(
+        #    linewidth=2,
+        #    size_percent=75,
+        #    ),
         ## Power button
         widget.TextBox(
             fontsize=17,
@@ -501,7 +515,7 @@ def get_widgets(primary=False, secondary=False):
                 "Button1": lazy.spawn(home + '/.local/share/scripts/rofi/powermenu.sh'),
             },
             padding=5,
-            text='\uE235 '
+            text='\uE235 ',
             ),
         ]
 #        widget.CapsNumLockIndicator(),
@@ -517,31 +531,55 @@ def get_widgets(primary=False, secondary=False):
             ),
         widgets.insert(10,
             widget.WidgetBox(widgets=[
-                widget.Systray(),
-                #widget.StatusNotifier(),
-                # Bluetooth
-                widget.Bluetooth(
-                    fmt="{}",
-                    hci="/dev_00_18_09_D2_4C_B0",
-                    mouse_callbacks= {
-                        'Button1': lazy.spawn("blueman-manager"),
-                        }
-                    ),
-                #widget.GenPollText(
-                #   func=lambda :subprocess.check_output(
-                #           home + '/.local/share/scripts/bluetooth/bluetooth_widget.sh').decode().strip(),
-                #   update_interval=5,
-                #   foreground = FG,
-                #   mouse_callbacks= {
-                #       'Button1': lazy.spawn("blueman-manager"),
-                #       }
-                #   ),
-                # Flameshot
-                ],
-                close_button_location='right',
-                foreground=CYA
+                #widget.Systray(),
+                widget.StatusNotifier(),
+                    # Bluetooth
+                    #widget.Bluetooth(
+                    #    fmt="{}",
+                    #    hci="/dev_00_18_09_D2_4C_B0",
+                    #    mouse_callbacks= {
+                    #        'Button1': lazy.spawn("blueman-manager"),
+                    #        }
+                    #    ),
+                    #widget.GenPollText(
+                    #   func=lambda :subprocess.check_output(
+                    #           home + '/.local/share/scripts/bluetooth/bluetooth_widget.sh').decode().strip(),
+                    #   update_interval=5,
+                    #   foreground = FG,
+                    #   mouse_callbacks= {
+                    #       'Button1': lazy.spawn("blueman-manager"),
+                    #       }
+                    #   ),
+                widget.LaunchBar(
+                    foreground=PUR,
+                    progs=[
+                        ('', 'easyeffects', 'spawn easyeffects'),
+                        ('', 'qpwgraph', 'spawn qpwgraph')
+                        ],
+                    padding=2,
+                    text_only=True
+                    )
+                    ],
+                    close_button_location='right',
+                    foreground=CYA
                 ),
             )
+        widgets.insert(11,
+            widget.LaunchBar(
+               foreground=ORA,
+               progs=[
+                   ('', 'flameshot gui', 'spawn flameshot'),
+                   ],
+               padding=2,
+               text_only=True
+               )
+            ),
+        widgets.insert(11,
+            widget.Sep(
+                linewidth=2,
+                size_percent=75,
+                ),
+            ),
         # Mic
         widgets.insert(11,
             widget.GenPollText(
@@ -563,18 +601,6 @@ def get_widgets(primary=False, secondary=False):
                 foreground = PUR,
                 ),
             )
-        widgets.insert(11,
-            widget.LaunchBar(
-                foreground=PUR,
-                progs=[
-                    ('', 'easyeffects', 'spawn easyeffects'),
-                    ('', 'flameshot launcher', 'spawn flameshot launcher'),
-                    ('', 'qpwgraph', 'spawn qpwgraph')
-                    ],
-                padding=2,
-                text_only=True
-                )
-            ),
 ## Secondary screen
     if secondary:
         widgets.insert(9,
