@@ -68,11 +68,11 @@ keys = [
     Key([mod], "space",
         lazy.layout.next()
         ),
-    Key([mod], "n",                                                                                                     
-        lazy.next_screen()                                                                                                   
-        ),                                                                                                                    
-    Key([mod, "shift"], "n",                                                                                                      
-        lazy.prev_screen()                                                                                                   
+    Key([mod], "n", 
+        lazy.next_screen()
+        ),
+    Key([mod, "shift"], "n",
+        lazy.prev_screen()
         ),
 
     # Moving windows between left/right columns or move up/down in current stack.
@@ -386,7 +386,7 @@ layouts = [
 # Widgets {{{
 # Make window names shroter, add other program if necesarry
 def longText(text):
-    for string in ["Firefox"]:
+    for string in ["Firefox", "Ferdium"]:
         if string in text:
             text = string
         else:
@@ -406,6 +406,21 @@ extension_defaults = widget_defaults.copy()
 ## Widget list
 def get_widgets(primary=False, secondary=False):
     widgets = [
+        ## Start button
+        widget.TextBox(
+            fontsize=17,
+            foreground = CYA,
+            mouse_callbacks= {
+                'Button1': lazy.spawn("rofi -show drun"),
+                'Button3': lazy.spawn("rofi -show run"),
+            },
+            padding=5,
+            text='\uF303 '
+            ),
+        widget.Sep(
+            linewidth=2,
+            size_percent=75,
+            ),
         ## Group Box
         widget.GroupBox(
             active = PUR,
@@ -443,13 +458,6 @@ def get_widgets(primary=False, secondary=False):
             ),
         widget.Spacer(
             ),
-        ## Time and date
-        widget.Clock(
-            foreground = ORA,
-            format="%H:%M",
-            ),
-        widget.Spacer(
-            ),
         widget.Chord(
             foreground = CM,
             ),
@@ -457,13 +465,30 @@ def get_widgets(primary=False, secondary=False):
             linewidth=2,
             size_percent=75,
             ),
+        ## Time and date
+        widget.Clock(
+            foreground = GRE,
+            format="%a %d-%m - %H:%M",
+            ),
+        widget.Sep(
+                linewidth=2,
+                size_percent=75,
+                ),
         ## Keyboard Layout
         widget.KeyboardLayout(
-            configured_keyboards=['cz','us'],
-            foreground = YEL,
-            fmt='\uf80b {}',
-            padding=5,
-            ),
+                configured_keyboards=['cz','us'],
+                foreground = YEL,
+                fmt='\uf80b {}',
+                padding=5,
+                ),
+        #widget.Sep(
+        #    linewidth=2,
+        #    size_percent=75,
+        #    ),
+        #widget.Clock(
+        #    foreground = ORA,
+        #    format="%H:%M",
+        #    ),
         widget.Sep(
             linewidth=2,
             size_percent=75,
@@ -473,8 +498,7 @@ def get_widgets(primary=False, secondary=False):
             fontsize=17,
             foreground = RED,
             mouse_callbacks= {
-                'Button1': lazy.spawn("rofi -show drun"),
-                "Button3": lazy.spawn(home + '/.local/share/scripts/rofi/powermenu.sh'),
+                "Button1": lazy.spawn(home + '/.local/share/scripts/rofi/powermenu.sh'),
             },
             padding=5,
             text='\uE235 '
@@ -496,46 +520,28 @@ def get_widgets(primary=False, secondary=False):
                 widget.Systray(),
                 #widget.StatusNotifier(),
                 # Bluetooth
-                widget.GenPollText(
-                   func=lambda :subprocess.check_output(
-                           home + '/.local/share/scripts/bluetooth/bluetooth_widget.sh').decode().strip(),
-                   update_interval=5,
-                   foreground = FG,
-                   mouse_callbacks= {
-                       'Button1': lazy.spawn("blueman-manager"),
-                       }
-                   ),
+                widget.Bluetooth(
+                    fmt="{}",
+                    hci="/dev_00_18_09_D2_4C_B0",
+                    mouse_callbacks= {
+                        'Button1': lazy.spawn("blueman-manager"),
+                        }
+                    ),
+                #widget.GenPollText(
+                #   func=lambda :subprocess.check_output(
+                #           home + '/.local/share/scripts/bluetooth/bluetooth_widget.sh').decode().strip(),
+                #   update_interval=5,
+                #   foreground = FG,
+                #   mouse_callbacks= {
+                #       'Button1': lazy.spawn("blueman-manager"),
+                #       }
+                #   ),
                 # Flameshot
-                widget.TextBox(
-                   foreground = FG,
-                   mouse_callbacks= {
-                       'Button1': lazy.spawn("flameshot launcher"),
-                       'Button2': lazy.spawn("flameshot screen"),
-                       'Button3': lazy.spawn("flameshot config"),
-                       },
-                   text=''
-                   ),
-                # wasy effects
-                widget.TextBox(
-                   foreground = FG,
-                   mouse_callbacks= {
-                       'Button1': lazy.spawn("easyeffects"),
-                       },
-                   text=''
-                   ),
-                # qwpgraph
-                widget.TextBox(
-                   foreground = FG,
-                   mouse_callbacks= {
-                       'Button1': lazy.spawn("qpwgraph"),
-                       },
-                   text='ﳤ'
-                   ),
-            ],
-                close_button_location="right",
-                foreground = CYA,
-            ),
-        ),
+                ],
+                close_button_location='right',
+                foreground=CYA
+                ),
+            )
         # Mic
         widgets.insert(11,
             widget.GenPollText(
@@ -554,51 +560,36 @@ def get_widgets(primary=False, secondary=False):
                     home + '/.local/share/scripts/volume/pamixer_out_widget.sh').decode().strip(),
                 fmt='墳 {}',
                 update_interval=60,
-                foreground = ORA,
-                ),
-            )
-        # Solaar
-        #widgets.insert(11,
-        #    widget.Battery(
-        #        battery="/dev/hidraw7",
-        #        foreground=GRE,
-        #        format="{percent:2.0%}",
-        #        fmt='\uf87c {}',
-        #        low_foreground=RED,
-        #        low_percentage=0.4,
-        #        mouse_callbacks = {
-        #            "Button1": lazy.spawn("solaar"),
-        #            },
-        #        notify_below=0.4,
-        #        update_interval=120,
-        #        ),
-        #    )
-        # Date
-        widgets.insert(7,
-            widget.Clock(
                 foreground = PUR,
-                format="%Y-%m-%d %a",
                 ),
             )
-        widgets.insert(7,
-            widget.Sep(
-                linewidth=2,
-                size_percent=75,
-                ),
-            )
+        widgets.insert(11,
+            widget.LaunchBar(
+                foreground=PUR,
+                progs=[
+                    ('', 'easyeffects', 'spawn easyeffects'),
+                    ('', 'flameshot launcher', 'spawn flameshot launcher'),
+                    ('', 'qpwgraph', 'spawn qpwgraph')
+                    ],
+                padding=2,
+                text_only=True
+                )
+            ),
 ## Secondary screen
     if secondary:
-        # Date
-        widgets.insert(7,
-            widget.Clock(
-                foreground = PUR,
-                format="%Y-%m-%d",
-                ),
-            )
-        widgets.insert(7,
+        widgets.insert(9,
             widget.Sep(
                 linewidth=2,
                 size_percent=75,
+                ),
+            ),
+        widgets.insert(10,
+            widget.GenPollText(
+                name="inwidget",
+                func=lambda :subprocess.check_output(
+                    home + '/.local/share/scripts/volume/pamixer_in_widget.sh').decode().strip(),
+                update_interval=1,
+                foreground = PIN
                 ),
             )
     return widgets
