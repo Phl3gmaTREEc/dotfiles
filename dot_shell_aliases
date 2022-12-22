@@ -44,7 +44,8 @@ alias sm='htop'
 alias v='nvim'
 alias e='lfcd'
 alias E='lf'
-alias pdf='zathura'
+#alias pdf='zathura'
+alias pdf='sioyek'
 
 ## Mullvad
 alias mullcheck='firefox --new-window https://mullvad.net/en/check/'

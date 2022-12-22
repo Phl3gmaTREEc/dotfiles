@@ -9,7 +9,7 @@
             "dry": -100.0,
             "hpf-frequency": 10.0,
             "hpf-mode": "off",
-            "input-gain": 0.0,
+            "input-gain": 5.0,
             "knee": -6.0,
             "lpf-frequency": 20000.0,
             "lpf-mode": "off",

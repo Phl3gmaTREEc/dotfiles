@@ -28,3 +28,13 @@ xargs rm <<< $(fd <target>)
 
 # convert AV file into other format (and adjust sound quality)
 ffmpeg -i <source> -aq 60 <target>
+
+# batch convert AV files (adjust input and output format)
+for i in *.mp3; do ffmpeg -i "$i" "${i%.*}.ogg"; done
+
+# cut out a part of AV file into new file; -ss 1 - where to start; -t 2 where to end (in seconds)
+ffmpeg -ss 1 -i source.format -t 2 target.foramt
+
+% tools, pdf, pdftoppm
+# conver PDF (or part of it to image file) target without format, X+Y first and last page
+pdftoppm -jpeg <source> -f X -l Y <target>

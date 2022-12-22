@@ -49,7 +49,7 @@ from qtile_extras.widget.decorations import BorderDecoration, PowerLineDecoratio
 mod = "mod4"
 terminal = "kitty"
 browser = "firefox"
-guifile = "pcmanfm-qt"
+guifile = "thunar"
 
 home = os.path.expanduser('~')
 ### App definitions end }}}
@@ -156,9 +156,10 @@ keys = [
         lazy.reload_config(),
         desc="Reload the config"
         ),
-    Key([mod, "control"], "q",
-        lazy.shutdown(),
-        desc="Shutdown Qtile"
+
+    Key([mod, "control", "shift"], "r",
+        lazy.restart(),
+        desc="Restart Qtile"
         ),
 
     # Toggle WidgetBox widget
@@ -250,7 +251,7 @@ groups = [
         #    layout.Max(),
         #    ]
         #),
-    ScratchPad("comma", [
+    ScratchPad("volume", [
         DropDown(
             'pavu',
             'pavucontrol',
@@ -262,10 +263,22 @@ groups = [
             ),
         ]
         ),
-    ScratchPad("period", [
+    ScratchPad("terminal", [
         DropDown(
             'term',
             'kitty',
+            height = 0.5,
+            on_focus_lost_hide = False,
+            opacity = 0.95,
+            width = 0.5,
+            x = 0.25,
+            ),
+        ]
+        ),
+    ScratchPad("calc", [
+        DropDown(
+            'qalc',
+            'qalculate-gtk',
             height = 0.5,
             on_focus_lost_hide = False,
             opacity = 0.95,
@@ -286,11 +299,11 @@ cz_groups = {
     '8': 'aacute',
     '9': 'iacute',
     '0': 'eacute',
-    'comma': 'comma',
-    'period': 'period'
+    #'comma': 'comma',
+    #'period': 'period',
     }
 # Groups keys
-for i in groups:
+for i in groups[0:10]:
     keys.extend(
         [
             # mod1 + letter of group = switch to group
@@ -312,13 +325,20 @@ for i in groups:
                 lazy.window.togroup(i.name),
                 desc="Switch focused window to group {}".format(i.name),
             ),
-            # Scratchpads
-            Key([mod], "comma", lazy.group["comma"].dropdown_toggle('pavu')),
-            Key([mod], cz_groups["comma"], lazy.group["comma"].dropdown_toggle('pavu')),
-            Key([mod], "period", lazy.group["period"].dropdown_toggle('term')),
-            Key([mod], cz_groups["period"], lazy.group["period"].dropdown_toggle('term')),
             ]
     )
+for i in groups:
+    keys.extend(
+        [
+            # Scratchpads
+            Key([mod, "control"], "1", lazy.group["terminal"].dropdown_toggle('term')),
+            Key([mod, "control"], cz_groups["1"], lazy.group["terminal"].dropdown_toggle('term')),
+            Key([mod, "control"], "2", lazy.group["calc"].dropdown_toggle('qalc')),
+            Key([mod, "control"], cz_groups["2"], lazy.group["calc"].dropdown_toggle('qalc')),
+            Key([mod, "control"], "5", lazy.group["volume"].dropdown_toggle('pavu')),
+            Key([mod, "control"], cz_groups["5"], lazy.group["volume"].dropdown_toggle('pavu')),
+            ]
+        )
 ### Groups end }}}
 
 # Colors {{{
@@ -482,7 +502,7 @@ def get_widgets(primary=False, secondary=False):
         ## Time and date
         widget.Clock(
             foreground = GRE,
-            format="%a %d-%m - %H:%M",
+            format=" %a %d-%m  %H:%M",
             ),
         widget.Sep(
                 linewidth=2,
@@ -499,14 +519,6 @@ def get_widgets(primary=False, secondary=False):
             linewidth=2,
             size_percent=75,
             ),
-        #widget.Clock(
-        #    foreground = ORA,
-        #    format="%H:%M",
-        #    ),
-        #widget.Sep(
-        #    linewidth=2,
-        #    size_percent=75,
-        #    ),
         ## Power button
         widget.TextBox(
             fontsize=17,
@@ -518,7 +530,6 @@ def get_widgets(primary=False, secondary=False):
             text='\uE235 ',
             ),
         ]
-#        widget.CapsNumLockIndicator(),
 ## Inserting widgets per screen
 ## Primary screen
     if primary:
@@ -550,36 +561,11 @@ def get_widgets(primary=False, secondary=False):
                     #       'Button1': lazy.spawn("blueman-manager"),
                     #       }
                     #   ),
-                widget.LaunchBar(
-                    foreground=PUR,
-                    progs=[
-                        ('', 'easyeffects', 'spawn easyeffects'),
-                        ('', 'qpwgraph', 'spawn qpwgraph')
-                        ],
-                    padding=2,
-                    text_only=True
-                    )
                     ],
                     close_button_location='right',
                     foreground=CYA
                 ),
             )
-        widgets.insert(11,
-            widget.LaunchBar(
-               foreground=ORA,
-               progs=[
-                   ('', 'flameshot gui', 'spawn flameshot'),
-                   ],
-               padding=2,
-               text_only=True
-               )
-            ),
-        widgets.insert(11,
-            widget.Sep(
-                linewidth=2,
-                size_percent=75,
-                ),
-            ),
         # Mic
         widgets.insert(11,
             widget.GenPollText(
@@ -593,13 +579,23 @@ def get_widgets(primary=False, secondary=False):
         #Volume
         widgets.insert(11,
             widget.GenPollText(
+                foreground = PUR,
                 name="outwidget",
+                mouse_callbacks={
+                    'Button1': lazy.spawn("easyeffects"),
+                    'Button3': lazy.spawn("qpwgraph")
+                    },
                 func=lambda :subprocess.check_output(
                     home + '/.local/share/scripts/volume/pamixer_out_widget.sh').decode().strip(),
                 fmt='墳 {}',
-                update_interval=60,
-                foreground = PUR,
+                update_interval=60
                 ),
+            )
+        widgets.insert(11,
+            widget.Sep(
+                linewidth=2,
+                size_percent=75
+                )
             )
 ## Secondary screen
     if secondary:
@@ -690,10 +686,12 @@ floating_layout = layout.Floating(
 # Simple line configs
 auto_fullscreen = True
 auto_minimize = True
+bring_front_click = "floating_only"
 cursor_warp = False
 dgroups_key_binder = None
 dgroups_app_rules = []  # type: list
-focus_on_window_activation = "smart"
+focus_on_window_activation = "never"
+follow_mouse_focus = True
 reconfigure_screens = True
 wl_input_rules = None
 wmname = "Qtile"

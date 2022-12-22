@@ -19,7 +19,10 @@ sudo pacman -Rs <pkg_name>
 sudo pacman -Rns <pkg_name>
 
 # Remove orphan dependencies
-sudo pacman -Qdtq | sudo pacman -Rs -
+sudo pacman -Qdtq | sudo pacman -Rns -
+
+# Remove orphan dependencies extra method
+sudo pacman -Qqd | pacman -Rsu --print -
 
 # Remove packages no longer in any repositories
 sudo pacman -Qmq | sudo pacman -Rs -
