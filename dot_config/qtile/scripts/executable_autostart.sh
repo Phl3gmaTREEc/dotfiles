@@ -5,7 +5,7 @@
 
 # Start apps
 dunst -conf "~/.config/dunst/dunstrc" &
-easyeffects --gapplication-service &
+com.github.wwmm.easyeffects --gapplication-service &
 solaar --window=hide &
 qpwgraph -m &
 #nm-applet &
@@ -13,9 +13,9 @@ blueman-applet &
 steam -silent &
 flameshot &
 corectrl --minimize-systray &
-flatpak run org.ferdium.Ferdium &
-flatpak run com.logseq.Logseq &
-flatpak run com.discordapp.Discord &
+org.ferdium.Ferdium &
+com.logseq.Logseq &
+com.discordapp.Discord &
 #discord --start-minimized &
 #pasystray &
 #/home/ptc/.local/share/applications/pCloud.AppImage &

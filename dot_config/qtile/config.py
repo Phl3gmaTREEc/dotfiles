@@ -582,7 +582,7 @@ def get_widgets(primary=False, secondary=False):
                 foreground = PUR,
                 name="outwidget",
                 mouse_callbacks={
-                    'Button1': lazy.spawn("easyeffects"),
+                    'Button1': lazy.spawn("com.github.wwmm.easyeffects"),
                     'Button3': lazy.spawn("qpwgraph")
                     },
                 func=lambda :subprocess.check_output(
