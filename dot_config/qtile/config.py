@@ -200,8 +200,16 @@ keys = [
         desc="Launch browser"
         ),
     Key([mod], "e",
+        lazy.spawn("emacsclient -c -a 'emacs'"),
+        desc="Launch emacs"
+        ),
+    Key([mod, "control"], "e",
+        lazy.spawn("emacsclient -c -a 'emacs' ~/."),
+        desc="Launch emacs dired"
+        ),
+    Key([mod], "d",
         lazy.spawn(guifile),
-        desc="Launch gui file browser"
+        desc="Launch GUI file manager"
         ),
     Key([mod], "p",
         lazy.spawn("flameshot gui"),
@@ -278,7 +286,7 @@ groups = [
     ScratchPad("calc", [
         DropDown(
             'qalc',
-            'qalculate-gtk',
+            'qalculate-qt',
             height = 0.5,
             on_focus_lost_hide = False,
             opacity = 0.95,

@@ -42,10 +42,10 @@ alias fpli='flatpak list'
 ## Apps
 alias sm='htop'
 alias v='nvim'
-alias e='lfcd'
-alias E='lf'
-#alias pdf='zathura'
 alias pdf='sioyek'
+
+## Emacs
+alias er='~/.local/share/scripts/doom-restart.sh'
 
 ## Mullvad
 alias mullcheck='firefox --new-window https://mullvad.net/en/check/'
@@ -84,11 +84,3 @@ alias cfga='chezmoi git add .'
 alias cfgc='chezmoi git commit'
 alias cfgs='chezmoi git status'
 alias cfgpush='chezmoi git push'
-
-## GIT alias Config files
-#alias gcf='/usr/bin/git --git-dir=$HOME/git_repos/config_files/cfiles/ --work-tree=$HOME'
-#alias gcfa='gcf add'
-#alias gcfau='gcf add -u'
-#alias gcfc='gcf commit -m $1'
-#alias gcfs='gcf status'
-#alias gcfash='~/git_repos/config_files/gcf/gcf_scripts/gcfa_script.sh'

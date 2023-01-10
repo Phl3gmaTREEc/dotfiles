@@ -10,6 +10,7 @@ solaar --window=hide &
 qpwgraph -m &
 #nm-applet &
 blueman-applet &
+emacs --daemon &
 steam -silent &
 flameshot &
 corectrl --minimize-systray &

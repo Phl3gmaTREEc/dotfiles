@@ -19,5 +19,12 @@ sudo hwclock --systohc
 # Show hardware clock
 sudo hwclock --show
 
-# Shos system clock
+# Show system clock
 timedatectl status
+
+% system, disk, fstab
+# Verify /etc/fstab file
+sudo findmnt --verify
+
+# List disks
+ls -al /dev/disk/by-uuid
